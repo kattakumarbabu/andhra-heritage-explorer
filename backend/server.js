@@ -13,7 +13,7 @@ connectDB();
 const app = express();
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://YOUR_NETLIFY_SITE.netlify.app",
+    "https://ornate-souffle-3bc652.netlify.app/",
 ];
 
 app.use(
