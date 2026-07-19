@@ -1,49 +1,27 @@
+import { motion } from "framer-motion";
+
 function CategoryCard({ category }) {
   return (
-    <div
+    <motion.div
+      whileHover={{ y: -8, scale: 1.02 }}
+      transition={{ duration: 0.3 }}
       style={{
-        width: "180px",
-        height: "180px",
-        background: "#ffffff",
-        borderRadius: "20px",
+        minHeight: "180px",
+        background: "linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,41,59,0.95))",
+        borderRadius: "22px",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
         cursor: "pointer",
-        transition: "0.3s",
-        boxShadow: "0 8px 25px rgba(0,0,0,0.12)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-10px)";
-        e.currentTarget.style.boxShadow =
-          "0 20px 40px rgba(37,99,235,0.25)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "translateY(0)";
-        e.currentTarget.style.boxShadow =
-          "0 8px 25px rgba(0,0,0,0.12)";
+        boxShadow: "0 16px 40px rgba(2,6,23,0.28)",
+        border: "1px solid rgba(148,163,184,0.18)",
+        padding: "1.25rem",
       }}
     >
-      <div
-        style={{
-          fontSize: "60px",
-          marginBottom: "20px",
-        }}
-      >
-        {category.icon}
-      </div>
-
-      <h3
-        style={{
-          margin: 0,
-          color: "#1E293B",
-          fontWeight: "600",
-        }}
-      >
-        {category.name}
-      </h3>
-    </div>
+      <div style={{ fontSize: "3rem", marginBottom: "0.8rem" }}>{category.icon}</div>
+      <h3 style={{ margin: 0, color: "#f8fafc", fontWeight: "700" }}>{category.name}</h3>
+    </motion.div>
   );
 }
 

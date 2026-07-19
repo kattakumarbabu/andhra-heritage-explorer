@@ -1,178 +1,225 @@
+import { motion } from "framer-motion";
+import { Mail, MapPin, Phone, Send } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
+import toast from "react-hot-toast";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 function Contact() {
     const handleSubmit = (e) => {
         e.preventDefault();
-        alert("✅ Thank you! Your message has been received.");
+
+        toast.success("Thank you! Your message has been received.");
+
+        e.target.reset();
     };
 
     return (
-        <>
+        <div className="page-shell">
             <Navbar />
 
             {/* Hero */}
             <section
                 style={{
-                    background: "linear-gradient(135deg,#0F4C81,#2563EB)",
-                    color: "white",
-                    textAlign: "center",
-                    padding: "80px 20px",
-                }}
-            >
-                <h1
-                    style={{
-                        color: "white",
-                        fontSize: "52px",
-                        marginBottom: "15px",
-                    }}
-                >
-                    📞 Contact Us
-                </h1>
-
-                <p
-                    style={{
-                        fontSize: "20px",
-                        maxWidth: "700px",
-                        margin: "auto",
-                        color: "#E2E8F0",
-                    }}
-                >
-                    Have questions about Andhra Pradesh tourism? We'd love to hear from
-                    you.
-                </p>
-            </section>
-
-            {/* Main Content */}
-            <div
-                style={{
-                    background: "#F8FAFC",
-                    padding: "60px 20px",
+                    padding: "2.5rem 5% 3rem",
                 }}
             >
                 <div
                     style={{
-                        maxWidth: "1200px",
-                        margin: "auto",
-                        display: "grid",
-                        gridTemplateColumns: "repeat(auto-fit,minmax(400px,1fr))",
-                        gap: "40px",
+                        maxWidth: "1400px",
+                        margin: "0 auto",
+                        textAlign: "center",
                     }}
                 >
-                    {/* Contact Card */}
+                    <div className="section-label">
+                        Let's Connect
+                    </div>
 
-                    <div
+                    <h1 className="section-title">
+                        Contact the Explorer Behind the Experience
+                    </h1>
+
+                    <p
+                        className="section-copy"
                         style={{
-                            background: "#fff",
-                            padding: "35px",
-                            borderRadius: "20px",
-                            boxShadow: "0 10px 30px rgba(0,0,0,.08)",
+                            margin: "1rem auto 0",
                         }}
                     >
-                        <h2>📍 Contact Information</h2>
+                        Have a question, travel suggestion, collaboration
+                        request or feedback? Feel free to reach out anytime.
+                    </p>
+                </div>
+            </section>
+
+            {/* Contact Section */}
+
+            <section
+                style={{
+                    padding: "0 5% 4rem",
+                }}
+            >
+                <div
+                    style={{
+                        maxWidth: "1400px",
+                        margin: "0 auto",
+                        display: "grid",
+                        gridTemplateColumns:
+                            "repeat(auto-fit,minmax(380px,1fr))",
+                        gap: "35px",
+                    }}
+                >
+                    {/* Contact Info */}
+
+                    <motion.div
+                        initial={{
+                            opacity: 0,
+                            x: -30,
+                        }}
+                        animate={{
+                            opacity: 1,
+                            x: 0,
+                        }}
+                        transition={{
+                            duration: 0.5,
+                        }}
+                        className="glass-card"
+                        style={{
+                            padding: "35px",
+                            borderRadius: "25px",
+                        }}
+                    >
+                        <h2
+                            style={{
+                                marginBottom: "25px",
+                            }}
+                        >
+                            Contact Information
+                        </h2>
+
+                        {[
+                            {
+                                icon: <Phone size={18} />,
+                                title: "Phone",
+                                value: "+91 9392766518",
+                                link: "tel:+919392766518",
+                            },
+                            {
+                                icon: <Mail size={18} />,
+                                title: "Email",
+                                value:
+                                    "kattakumarbabu5@gmail.com",
+                                link:
+                                    "mailto:kattakumarbabu5@gmail.com",
+                            },
+                            {
+                                icon: <MapPin size={18} />,
+                                title: "Location",
+                                value:
+                                    "Andhra Pradesh, India",
+                            },
+                        ].map((item) => (
+                            <a
+                                key={item.title}
+                                href={item.link || "#"}
+                                style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "15px",
+                                    padding: "16px",
+                                    marginBottom: "15px",
+                                    borderRadius: "15px",
+                                    background:
+                                        "rgba(15,23,42,.72)",
+                                    textDecoration: "none",
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        width: "45px",
+                                        height: "45px",
+                                        borderRadius: "12px",
+                                        background:
+                                            "linear-gradient(135deg,#2563EB,#38BDF8)",
+                                        display: "flex",
+                                        alignItems: "center",
+                                        justifyContent: "center",
+                                        color: "white",
+                                    }}
+                                >
+                                    {item.icon}
+                                </div>
+
+                                <div>
+                                    <strong>
+                                        {item.title}
+                                    </strong>
+
+                                    <div
+                                        style={{
+                                            color: "#cbd5e1",
+                                            marginTop: "4px",
+                                        }}
+                                    >
+                                        {item.value}
+                                    </div>
+                                </div>
+                            </a>
+                        ))}
 
                         <div
                             style={{
-                                marginTop: "25px",
-                                lineHeight: "2.4",
-                                fontSize: "18px",
+                                display: "flex",
+                                gap: "20px",
+                                marginTop: "30px",
                             }}
                         >
-                            <p>
-                                <strong>👤 Name:</strong> Katta Kumar Babu
-                            </p>
+                            <a
+                                href="https://github.com/YOUR_USERNAME"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <FaGithub size={32} />
+                            </a>
 
-                            <p>
-                                <strong>📞 Phone:</strong>{" "}
-                                <a
-                                    href="tel:+919392766518"
-                                    style={{
-                                        color: "#2563EB",
-                                        textDecoration: "none",
-                                    }}
-                                >
-                                    +91 9392766518
-                                </a>
-                            </p>
-
-                            <p>
-                                <strong>📧 Email:</strong>{" "}
-                                <a
-                                    href="mailto:kattakumarbabu5@gmail.com"
-                                    style={{
-                                        color: "#2563EB",
-                                        textDecoration: "none",
-                                    }}
-                                >
-                                    kattakumarbabu5@gmail.com
-                                </a>
-                            </p>
-
-                            <p>
-                                <strong>📍 Location:</strong> Andhra Pradesh, India
-                            </p>
-
-                            <p>
-                                <strong>🕒 Available:</strong> Monday - Saturday
-                            </p>
+                            <a
+                                href="https://linkedin.com/in/YOUR_USERNAME"
+                                target="_blank"
+                                rel="noreferrer"
+                            >
+                                <FaLinkedin size={32} />
+                            </a>
                         </div>
-
-                        <hr
-                            style={{
-                                margin: "30px 0",
-                            }}
-                        />
-
-                        <h3>🌐 Connect With Me</h3>
-
-                        <div
-                            style={{
-                                marginTop: "20px",
-                                lineHeight: "2",
-                            }}
-                        >
-                            <p>
-                                💻 GitHub:
-                                <br />
-                                <a
-                                    href="https://github.com/"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    Add Your GitHub Profile
-                                </a>
-                            </p>
-
-                            <p>
-                                🔗 LinkedIn:
-                                <br />
-                                <a
-                                    href="https://linkedin.com/"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                >
-                                    Add Your LinkedIn Profile
-                                </a>
-                            </p>
-                        </div>
-                    </div>
+                    </motion.div>
 
                     {/* Contact Form */}
 
-                    <div
+                    <motion.div
+                        initial={{
+                            opacity: 0,
+                            x: 30,
+                        }}
+                        animate={{
+                            opacity: 1,
+                            x: 0,
+                        }}
+                        transition={{
+                            duration: 0.5,
+                        }}
+                        className="soft-card"
                         style={{
-                            background: "#fff",
                             padding: "35px",
-                            borderRadius: "20px",
-                            boxShadow: "0 10px 30px rgba(0,0,0,.08)",
+                            borderRadius: "25px",
                         }}
                     >
-                        <h2>✉️ Send Message</h2>
+                        <h2>Send a Message</h2>
 
-                        <form onSubmit={handleSubmit}>
+                        <form
+                            onSubmit={handleSubmit}
+                        >
                             <input
                                 type="text"
-                                placeholder="Your Name"
+                                placeholder="Full Name"
                                 required
                                 style={inputStyle}
                             />
@@ -197,46 +244,65 @@ function Contact() {
                                 required
                                 style={{
                                     ...inputStyle,
-                                    resize: "none",
+                                    borderRadius:
+                                        "20px",
+                                    resize:
+                                        "vertical",
+                                    minHeight:
+                                        "160px",
                                 }}
-                            ></textarea>
+                            />
 
                             <button
                                 type="submit"
+                                className="btn-primary"
                                 style={{
                                     width: "100%",
-                                    marginTop: "20px",
-                                    padding: "16px",
-                                    border: "none",
-                                    borderRadius: "10px",
-                                    background: "#2563EB",
-                                    color: "white",
-                                    fontSize: "18px",
-                                    cursor: "pointer",
-                                    fontWeight: "600",
+                                    marginTop:
+                                        "15px",
+                                    padding:
+                                        "15px",
+                                    display:
+                                        "flex",
+                                    justifyContent:
+                                        "center",
+                                    alignItems:
+                                        "center",
+                                    gap: "10px",
                                 }}
                             >
-                                Send Message 🚀
+                                Send Message
+
+                                <Send
+                                    size={18}
+                                />
                             </button>
                         </form>
-                    </div>
+                    </motion.div>
                 </div>
+            </section>
 
-                {/* Google Map */}
+            {/* Google Map */}
 
+            <section
+                style={{
+                    padding: "0 5% 4rem",
+                }}
+            >
                 <div
                     style={{
-                        maxWidth: "1200px",
-                        margin: "70px auto 0",
+                        maxWidth: "1400px",
+                        margin: "0 auto",
                     }}
                 >
                     <h2
                         style={{
                             textAlign: "center",
-                            marginBottom: "25px",
+                            marginBottom:
+                                "25px",
                         }}
                     >
-                        🗺️ Our Location
+                        Our Location
                     </h2>
 
                     <iframe
@@ -244,17 +310,20 @@ function Contact() {
                         src="https://www.google.com/maps?q=Andhra%20Pradesh&output=embed"
                         width="100%"
                         height="450"
+                        loading="lazy"
                         style={{
                             border: "none",
-                            borderRadius: "20px",
+                            borderRadius:
+                                "25px",
+                            boxShadow:
+                                "0 15px 35px rgba(0,0,0,.12)",
                         }}
-                        loading="lazy"
-                    ></iframe>
+                    />
                 </div>
-            </div>
+            </section>
 
             <Footer />
-        </>
+        </div>
     );
 }
 
@@ -262,8 +331,10 @@ const inputStyle = {
     width: "100%",
     padding: "15px",
     marginTop: "18px",
-    border: "1px solid #CBD5E1",
-    borderRadius: "10px",
+    borderRadius: "12px",
+    border: "1px solid rgba(148,163,184,0.3)",
+    background: "rgba(15,23,42,0.9)",
+    color: "#f8fafc",
     fontSize: "16px",
     outline: "none",
     boxSizing: "border-box",
