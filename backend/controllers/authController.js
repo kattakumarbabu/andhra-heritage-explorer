@@ -1,11 +1,21 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User");
 
+const User = require("../models/User");
+const Place = require("../models/Place");
+
+// ==========================
 // Register
+// ==========================
 const register = async (req, res) => {
     try {
         const { name, email, password } = req.body;
+
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                message: "Please fill all fields",
+            });
+        }
 
         const userExists = await User.findOne({ email });
 
@@ -32,16 +42,26 @@ const register = async (req, res) => {
             },
         });
     } catch (error) {
+        console.error(error);
+
         res.status(500).json({
-            message: error.message,
+            message: "Server Error",
         });
     }
 };
 
+// ==========================
 // Login
+// ==========================
 const login = async (req, res) => {
     try {
         const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({
+                message: "Please enter email and password",
+            });
+        }
 
         const user = await User.findOne({ email });
 
@@ -51,7 +71,10 @@ const login = async (req, res) => {
             });
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = await bcrypt.compare(
+            password,
+            user.password
+        );
 
         if (!isMatch) {
             return res.status(400).json({
@@ -60,28 +83,41 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { id: user._id },
+            {
+                id: user._id,
+            },
             process.env.JWT_SECRET,
             {
                 expiresIn: "7d",
             }
         );
 
-        res.json({
+        res.status(200).json({
             message: "Login Successful",
             token,
-            user,
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                favorites: user.favorites,
+            },
         });
     } catch (error) {
+        console.error(error);
+
         res.status(500).json({
-            message: error.message,
+            message: "Server Error",
         });
     }
 };
 
+// ==========================
 // Add Favorite
+// ==========================
 const addFavorite = async (req, res) => {
     try {
+        const { placeId } = req.params;
+
         const user = await User.findById(req.user.id);
 
         if (!user) {
@@ -90,25 +126,47 @@ const addFavorite = async (req, res) => {
             });
         }
 
-        if (!user.favorites.includes(req.params.placeId)) {
-            user.favorites.push(req.params.placeId);
-            await user.save();
+        const place = await Place.findById(placeId);
+
+        if (!place) {
+            return res.status(404).json({
+                message: "Place not found",
+            });
         }
 
-        res.json({
+        const alreadyAdded = user.favorites.some(
+            (fav) => fav.toString() === placeId
+        );
+
+        if (alreadyAdded) {
+            return res.status(400).json({
+                message: "Already in Favorites",
+            });
+        }
+
+        user.favorites.push(placeId);
+
+        await user.save();
+
+        res.status(200).json({
             message: "Added to Favorites ❤️",
         });
     } catch (error) {
+        console.error(error);
+
         res.status(500).json({
-            message: error.message,
+            message: "Server Error",
         });
     }
 };
 
+// ==========================
 // Get Favorites
+// ==========================
 const getFavorites = async (req, res) => {
     try {
-        const user = await User.findById(req.user.id).populate("favorites");
+        const user = await User.findById(req.user.id)
+            .populate("favorites");
 
         if (!user) {
             return res.status(404).json({
@@ -116,10 +174,45 @@ const getFavorites = async (req, res) => {
             });
         }
 
-        res.json(user.favorites);
+        res.status(200).json(user.favorites);
     } catch (error) {
+        console.error(error);
+
         res.status(500).json({
-            message: error.message,
+            message: "Server Error",
+        });
+    }
+};
+
+// ==========================
+// Remove Favorite
+// ==========================
+const removeFavorite = async (req, res) => {
+    try {
+        const { placeId } = req.params;
+
+        const user = await User.findById(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+            });
+        }
+
+        user.favorites = user.favorites.filter(
+            (fav) => fav.toString() !== placeId
+        );
+
+        await user.save();
+
+        res.status(200).json({
+            message: "Removed from Favorites",
+        });
+    } catch (error) {
+        console.error(error);
+
+        res.status(500).json({
+            message: "Server Error",
         });
     }
 };
@@ -129,4 +222,5 @@ module.exports = {
     login,
     addFavorite,
     getFavorites,
+    removeFavorite,
 };
