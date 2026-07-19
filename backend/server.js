@@ -11,14 +11,13 @@ dotenv.config();
 connectDB();
 
 const app = express();
-const allowedOrigins = [
-    "http://localhost:5173",
-    "https://ornate-souffle-3bc652.netlify.app/",
-];
 
 app.use(
     cors({
-        origin: allowedOrigins,
+        origin: [
+            "http://localhost:5173",
+            "https://ornate-souffle-3bc652.netlify.app/",
+        ],
         credentials: true,
     })
 );
